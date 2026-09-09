@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>DONE — pr-review-agent</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 800px; margin: 2rem auto; line-height: 1.6; }
+    h1, h2 { color: #1a1a1a; }
+    .section { border: 1px solid #ddd; border-radius: 8px; padding: 1.5rem; margin: 1rem 0; }
+    .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.85rem; }
+    .badge-new { background: #e0f2fe; color: #0369a1; }
+    .badge-distributed { background: #fef3c7; color: #92400e; }
+    .badge-network { background: #fce7f3; color: #9d174d; }
+  </style>
+</head>
+<body>
+  <h1>DONE — pr-review-agent</h1>
+
+  <!-- SECTION 1: COGNITIVE JOB (G0) -->
+  <div class="section" id="section-1">
+    <h2>Section 1 — Cognitive Job</h2>
+    <p><strong>Project:</strong> pr-review-agent</p>
+    <p><strong>Scope:</strong> <span class="badge badge-new">NEW</span></p>
+    <p><strong>Architecture:</strong> <span class="badge badge-distributed">DISTRIBUTED</span></p>
+    <p><strong>Trust Boundary:</strong> <span class="badge badge-network">NETWORK-FACING</span></p>
+    <p><strong>Current Phase:</strong> Phase 2 — Product</p>
+
+    <h3>What This Project Does</h3>
+    <p>
+      An AI-powered PR review agent that understands full PR context (title, description, changed files, commit history, code around changes, tests, repo structure, conventions, linked issues) and produces evidence-based, prioritized findings across 22 review dimensions: bug detection, security review, test coverage analysis, regression analysis, code quality, performance analysis, API/contract compatibility, dependency analysis, documentation impact, repository-aware review, change-risk assessment, finding prioritization with severity levels, confidence scoring, duplicate detection, multi-agent specialized review, verification/evidence loops, and PR-level executive summaries.
+    </p>
+
+    <h3>AI Components</h3>
+    <ul>
+      <li>LLM-based code understanding and reasoning</li>
+      <li>Multi-agent architecture with specialized reviewers (Bug, Security, Test, Perf, API, Quality agents)</li>
+      <li>Finding merger with deduplication and severity ranking</li>
+      <li>Evidence-based verification loops to reduce false positives</li>
+      <li>Repository pattern learning from accepted/rejected findings</li>
+    </ul>
+
+    <h3>Distributed Components</h3>
+    <ul>
+      <li>Context Builder — aggregates PR metadata and code context</li>
+      <li>Specialized review agents — parallel analysis pipelines</li>
+      <li>Finding Merger — deduplication and ranking</li>
+      <li>CI/CD integration — webhooks, static analysis, test runners</li>
+    </ul>
+
+    <h3>Trust Boundary</h3>
+    <p>
+      Network-facing: receives webhooks from GitHub/GitLab/Bitbucket, processes external PR data, and posts comments back. Must handle untrusted input safely (SQL injection, XSS, secrets in PRs, etc.).
+    </p>
+  </div>
+
+  <!-- SECTION 2: DEFINITION OF DONE (G4) -->
+  <div class="section" id="section-2">
+    <h2>Section 2 — Definition of Done</h2>
+    <p><strong>Phase Gate: Phase 2 → Production</strong></p>
+
+    <h3>Functional Requirements — All must pass</h3>
+    <ul>
+      <li>☑ Receives webhook from GitHub and extracts PR context (title, description, files, commits)</li>
+      <li>☑ Builds full code context (changed lines + surrounding code + tests + repo structure)</li>
+      <li>☑ Runs all 6 specialized review agents in parallel and returns findings</li>
+      <li>☑ Each finding includes: severity, confidence, category, evidence, impact, suggested fix</li>
+      <li>☑ Finding merger deduplicates and ranks findings by severity</li>
+      <li>☑ Produces PR-level executive summary with risk assessment and recommendation</li>
+      <li>☑ Posts review as PR comment (or saves to file for local mode)</li>
+    </ul>
+
+    <h3>Quality Requirements — All must pass</h3>
+    <ul>
+      <li>☑ False positive rate &lt; 10% (validated against 10 known-good PRs)</li>
+      <li>☑ Security findings include exploit path explanation</li>
+      <li>☑ All outbound calls (LLM, GitHub API) have explicit timeouts</li>
+      <li>☑ Untrusted webhook input is validated against schema before processing</li>
+      <li>☑ No domain logic depends on specific web framework (clean architecture)</li>
+      <li>☑ Test coverage ≥ 80% on core review pipeline</li>
+    </ul>
+
+    <h3>Integration Requirements — All must pass</h3>
+    <ul>
+      <li>☑ GitHub webhook receiver works with ngrok or production URL</li>
+      <li>☑ CI pipeline runs tests and lints on every push</li>
+      <li>☑ Review completes within 5 minutes for a 50-file PR</li>
+      <li>☑ Graceful degradation when LLM API is unavailable (queue + retry)</li>
+    </ul>
+
+    <h3>Evidence Commands</h3>
+    <table border="1" cellpadding="8" style="border-collapse: collapse;">
+      <tr><th>Requirement</th><th>Demo Command</th></tr>
+      <tr><td>Webhook received</td><td><code>curl -X POST localhost:3000/webhook -H 'Content-Type: application/json' -d @test-payload.json</code></td></tr>
+      <tr><td>Review produced</td><td><code>cat output/pr-42-review.md | head -30</code></td></tr>
+      <tr><td>Severity ranking</td><td><code>jq '.findings | sort_by(.severity)' output/pr-42.json</code></td></tr>
+      <tr><td>Timeout enforced</td><td><code>grep -r "timeout" src/adapters/ | wc -l</code> (must be ≥ number of outbound calls)</td></tr>
+      <tr><td>Tests pass</td><td><code>npm test -- --coverage</code></td></tr>
+      <tr><td>Lint clean</td><td><code>npm run lint</code></td></tr>
+    </table>
+  </div>
+</body>
+</html>

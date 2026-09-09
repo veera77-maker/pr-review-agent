@@ -1,0 +1,50 @@
+{
+  "schema_version": 2,
+  "project": {
+    "name": "pr-review-agent",
+    "mode": "init",
+    "profile": "prototype",
+    "objective": "Define the project objective.",
+    "constraints": [],
+    "non_goals": [],
+    "trust_boundary": "local repository",
+    "created_at": "2026-09-09T06:00:00.878Z",
+    "updated_at": "2026-09-09T06:00:00.879Z"
+  },
+  "policy": {
+    "ponytail": "full",
+    "autonomy": "human-in-the-loop",
+    "learned_rule_promotion": "human-required",
+    "cleanup": "propose-only",
+    "traces": {
+      "storage": "local",
+      "commit_raw": false,
+      "redact_secrets": true
+    }
+  },
+  "lifecycle": {
+    "phase": "discovery",
+    "status": "ready",
+    "active_task": null,
+    "blocker": null,
+    "next_action": "Confirm the objective and add the first bounded task."
+  },
+  "commands": {},
+  "workflow": null,
+  "artifacts": [],
+  "assumptions": [],
+  "invariants": [],
+  "decisions": [],
+  "knowledge": [],
+  "tasks": [],
+  "learning_proposals": [],
+  "cleanup_proposals": [],
+  "controls": [],
+  "attempts": [],
+  "authorizations": [],
+  "experiments": [],
+  "incidents": [],
+  "discovery": null,
+  "checkpoint": null,
+  "legacy": null
+}

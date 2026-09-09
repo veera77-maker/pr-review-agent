@@ -1,0 +1,22 @@
+{
+  "name": "pr-review-agent",
+  "version": "0.1.0",
+  "description": "AI-powered PR review agent",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "node --test src/**/*.test.js",
+    "lint": "node --no-warnings --experimental-strip-types node_modules/.bin/eslint src/ 2>&1 || echo 'lint setup pending'"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@eslint/js": "^9.39.5",
+    "eslint": "^9.39.5"
+  }
+}

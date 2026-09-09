@@ -1,0 +1,30 @@
+{
+  "schema_version": 2,
+  "project": "pr-review-agent",
+  "invariants": [
+    {
+      "id": "INV-1",
+      "rule": "domain never imports framework",
+      "description": "Core review logic (finding detection, severity ranking, evidence generation) must not depend on specific web frameworks or CI/CD platforms. Framework adapters live in adapters/ and implement domain interfaces.",
+      "severity": "high",
+      "added_by": "G2-ritual",
+      "added_at": "2026-09-09"
+    },
+    {
+      "id": "INV-2",
+      "rule": "every outbound call has a timeout",
+      "description": "All HTTP requests, LLM API calls, and webhook deliveries must specify explicit timeouts. No call may block indefinitely. Default timeout: 30s for external APIs, 120s for LLM inference.",
+      "severity": "high",
+      "added_by": "G2-ritual",
+      "added_at": "2026-09-09"
+    },
+    {
+      "id": "INV-3",
+      "rule": "untrusted input is sanitized before processing",
+      "description": "PR payloads from webhooks, user-provided code snippets, and external API responses are untrusted. All input must be validated against a schema and sanitized before use in prompts, database queries, or file operations.",
+      "severity": "critical",
+      "added_by": "G2-ritual",
+      "added_at": "2026-09-09"
+    }
+  ]
+}

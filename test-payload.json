@@ -1,0 +1,37 @@
+{
+  "action": "opened",
+  "pull_request": {
+    "number": 42,
+    "title": "Fix null pointer in user profile rendering",
+    "body": "This PR fixes a crash when user profile has no avatar URL. Also adds null checks for optional fields.",
+    "state": "open",
+    "user": { "login": "dev-user" },
+    "base": { "ref": "main" },
+    "head": { "ref": "fix/null-profile" },
+    "html_url": "https://github.com/example/repo/pull/42",
+    "changed_files": 2,
+    "files": [
+      {
+        "filename": "src/components/UserProfile.jsx",
+        "status": "modified",
+        "additions": 12,
+        "deletions": 3,
+        "patch": "@@ -10,7 +10,16 @@\n export function UserProfile({ user }) {\n-  return <img src={user.avatar.url} alt={user.name} />;\n+  const avatarUrl = user?.avatar?.url ?? '/default-avatar.png';\n+  const name = user?.name ?? 'Anonymous';\n+  return (\n+    <div className=\"profile\">\n+      <img src={avatarUrl} alt={name} />\n+      <span>{name}</span>\n+    </div>\n+  );\n }"
+      },
+      {
+        "filename": "src/components/UserProfile.test.jsx",
+        "status": "modified",
+        "additions": 8,
+        "deletions": 1,
+        "patch": "@@ -5,4 +5,11 @@\n describe('UserProfile', () => {\n-  it('renders avatar', () => {\n+  it('renders default avatar when none provided', () => {\n+    const user = { name: 'Test' };\n+    render(<UserProfile user={user} />);\n+    expect(screen.getByAltText('Test')).toHaveAttribute('src', '/default-avatar.png');\n+  });\n+  it('renders provided avatar', () => {\n     const user = { name: 'Alice', avatar: { url: '/alice.jpg' } };\n     render(<UserProfile user={user} />);\n-    expect(screen.getByAltText('Alice')).toBeInTheDocument();\n+    expect(screen.getByAltText('Alice')).toHaveAttribute('src', '/alice.jpg');\n   });\n });"
+      }
+    ],
+    "commits": [
+      {
+        "sha": "abc123def456",
+        "message": "fix: add null checks for user profile avatar",
+        "author": { "name": "dev-user" }
+      }
+    ]
+  }
+}
