@@ -9,8 +9,9 @@
  */
 
 import { readFileSync, existsSync } from 'node:fs';
-import { spawn } from 'node:child_process';
+import { spawn, execSync } from 'node:child_process';
 import { join } from 'node:path';
+import { createWebhookServer } from '../src/adapters/webhook-server.js';
 
 // 1. Load .env file
 const envPath = join(process.cwd(), '.env');
@@ -36,7 +37,6 @@ function findNgrok() {
   const candidates = ['ngrok'];
   for (const cmd of candidates) {
     try {
-      const { execSync } = await import('node:child_process');
       execSync(`${cmd} version`, { stdio: 'ignore' });
       return cmd;
     } catch {
@@ -118,7 +118,6 @@ async function main() {
   // Start webhook server
   console.log('');
   console.log('Starting webhook server...');
-  const { createWebhookServer } = await import('../src/adapters/webhook-server.js');
   const server = createWebhookServer();
   server.listen(port, () => {
     console.log(`Server listening on http://localhost:${port}`);
